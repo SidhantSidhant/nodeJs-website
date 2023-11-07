@@ -16,11 +16,16 @@ const studentSchema = mongoose.Schema({
     },
     message : {
         type :String,
-    }
+    },
+})
+
+const logInSchema = mongoose.Schema({
+    email : String,
+    password : String,
 })
 
 const studentmodel = new mongoose.model("studentData", studentSchema);
+const loginModel = new mongoose.model("login", logInSchema);
 
 
-module.exports = studentmodel;
-
+module.exports = {studentmodel, loginModel};

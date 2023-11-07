@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{>header}}
+</head>
+
+<body>
+
+    <div class="d-flex flex-column justify-content-center align-items-center" style="width : 100%; height:100vh">
+
+        <form id="form" class="d-none" action="/login" method="POST">
+            <h3 class="text-uppercase mb-3 text-center">LogIn Form</h3>
+            <div class="from-group">
+                <label for="email"><strong>Email*</strong></label>
+                <input type="email" name="email" id="email" placeholder="Email" class="form-control">
+            </div>
+
+            <div class="from-group">
+                <label for="password"><strong>Password*</strong></label>
+                <input type="password" name="password" id="password" placeholder="password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-yellow btn-block mt-4">SingIn</button>
+            </div>
+        </form>
+
+        <form id="singUp" action="/signUp" method="POST">
+            <h3 class="text-uppercase mb-3 text-center">LogIn Form</h3>
+            <div class="from-group">
+                <label for="email"><strong>Email*</strong></label>
+                <input type="text" name="email" id="email" placeholder="Email" class="form-control">
+            </div>
+
+            <div class="from-group">
+                <label for="password"><strong>Password*</strong></label>
+                <input type="text" name="password" id="password" placeholder="password" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-yellow btn-block mt-4">SingUp</button>
+            </div>
+        </form>
+        <span>
+            <p id="para" style="cursor : pointer">Please SingUp the account</p>
+        </span>
+    </div>
+
+    <script>
+        const para = document.getElementById("para");
+        const form = document.getElementById("form");
+        const signUpform = document.getElementById("singUp");
+        console.log(signUpform)
+
+        para.addEventListener("click", function (event) {
+            form.classList.toggle("d-none");
+            signUpform?.classList.toggle("d-none")
+            console.log(signUpform)
+        })
+
+        // $(document).ready(function(){
+        //   let form = $("#form");
+        // console.log(form)
+        // })
+    </script>
+</body>
+
+</html>

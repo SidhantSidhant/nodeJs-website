@@ -218,6 +218,14 @@ textarea {
     background-color: orange;
 }
 
+/* logIn css */
+#form, #singUp{
+    width: 500px;
+    padding: 2rem;
+    min-height: 15rem;
+    background-color: rgb(211, 181, 141, .1);
+}
+
 @media all and (max-width : 775px){
    .about .card{
         width : 100% !important;
