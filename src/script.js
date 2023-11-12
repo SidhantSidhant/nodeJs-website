@@ -21,7 +21,7 @@ hbs.registerPartials(patrial_template_path)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
-app.get("/", (req, res) => {
+app.get("/nice-page", (req, res) => {
   let carrerArr = [{ head: "BUILDING", text: "Excepteur sint occaecat", button: 'more', icon: "" }, { head: "BUILDING", text: "Excepteur sint occaecat", button: 'more', icon: "" }, { head: "BUILDING", text: "Excepteur sint occaecat", button: 'more', icon: "" }]
   let gaillaryArr = [
     { img: 'https://assets.nicepagecdn.com/d2cc3eaa/3854207/images/w.jpg', alt: "", name: "JEFFREY BROWN", work: "Handyman" },
@@ -40,7 +40,7 @@ app.get("/about", (req, res) => {
   res.render("about")
 })
 
-app.get("/login", (req, res) => {
+app.get("/", (req, res) => {
   res.render('login')
 })
 
@@ -60,7 +60,7 @@ app.post("/student", async (req, res) => {
 })
 
 // signIn means log in
-app.post("/login", async (req, res) => {
+app.post("/", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
 
