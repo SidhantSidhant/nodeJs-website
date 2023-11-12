@@ -1,5 +1,5 @@
 
-const { mongoose, express, path, hbs } = require("./public/db/dbConnection");
+const { mongoose, express, path, hbs, bcrypt } = require("./public/db/dbConnection");
 const studentmodel = require("../src/public/model/studentSchema").studentmodel;
 const logInModel = require("../src/public/model/studentSchema").loginModel;
 
@@ -69,7 +69,8 @@ app.post("/login", async (req, res) => {
     password: password
   })
 
-  let data = await insertLoginData.save();
+  let data = await insertLoginData.save(); 
+  console.log(data);
   res.send(data)
 })
 
@@ -79,13 +80,19 @@ app.post("/signUp", async (req, res) => {
   let password = req.body.password;
 
   const userEmail = await logInModel.findOne({ email: email });
-  console.log(userEmail);
-  if (userEmail.email === email) {
-    res.render("index");
-
-  } else {
-    res.status(400).res('login invalid')
+  const isMatch = bcrypt.compare(password, userEmail.password);
+  if(isMatch){
+      res.render("index");
+  }else{
+    res.status(400).send("Invalid login");
   }
+
+  // console.log(userEmail);
+  // if (isMatch === password) {
+  //   res.render("index");
+  // } else {
+  //   res.status(400).res('login invalid')
+  // }
 })
 
 app.listen('8000')
