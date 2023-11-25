@@ -1,4 +1,5 @@
-const { mongoose, bcrypt } = require("../db/dbConnection")
+require("dotenv").config()
+const { mongoose, bcrypt, jwt } = require("../db/dbConnection")
 
 const studentSchema = mongoose.Schema({
     name: {
@@ -16,7 +17,7 @@ const studentSchema = mongoose.Schema({
     },
     message: {
         type: String,
-    },
+    }
 })
 
 const logInSchema = mongoose.Schema({
@@ -24,18 +25,37 @@ const logInSchema = mongoose.Schema({
     password: {
         type: String
     },
+
+    // tokens : [{
+    //     token : {
+    //         type : String
+    //     }
+    // }]
+
+    token: {
+        type: String
+    }
 })
+
+logInSchema.methods.genrateAuterizationToken = async function () {
+    console.log(this._id.toString());
+    let token = await jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY);
+    //  this.tokens = this.tokens.concat({token : token});
+    this.token = token;
+    await this.save();
+    return token;
+}
 
 logInSchema.pre("save", async function (next) {
     const password = await bcrypt.hash(this.password, 10);
-        console.log(password);
-        this.password = password;
+    // console.log(password);
+    this.password = password;
     next()
 })
 
 
+
 const studentmodel = new mongoose.model("studentData", studentSchema);
 const loginModel = new mongoose.model("login", logInSchema);
-
 
 module.exports = { studentmodel, loginModel };

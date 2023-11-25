@@ -1,4 +1,5 @@
 
+require("dotenv").config();
 const { mongoose, express, path, hbs, bcrypt } = require("./public/db/dbConnection");
 const studentmodel = require("../src/public/model/studentSchema").studentmodel;
 const logInModel = require("../src/public/model/studentSchema").loginModel;
@@ -8,7 +9,7 @@ const patrial_template_path = path.join(__dirname, "../src/public/template/parti
 const stylePath = path.join(__dirname, "./public")
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/studentList").then(() => {
+mongoose.connect(process.env.DB).then(() => {
   // console.log("conntction successful")
 }).catch(() => {
   throw new Error("database is not Connectd")
@@ -46,12 +47,13 @@ app.get("/", (req, res) => {
 
 app.post("/student", async (req, res) => {
   try {
-    console.log(req.body.name);
     const newStudentListData = new studentmodel({
       name: req.body.name,
       email: req.body.email,
       message: req.body.message
     })
+
+    
     let storeStudentListData = await newStudentListData.save()
     res.send(storeStudentListData);
   } catch (err) {
@@ -60,18 +62,21 @@ app.post("/student", async (req, res) => {
 })
 
 // signIn means log in
-app.post("/", async (req, res) => {
+app.post("/nice-page", async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
+
+  // console.log(email);
 
   let insertLoginData = new logInModel({
     email: email,
     password: password
   })
 
-  let data = await insertLoginData.save(); 
-  console.log(data);
-  res.send(data)
+  // console.log(insertLoginData);
+  let token = insertLoginData.genrateAuterizationToken()
+  let data = await insertLoginData.save();
+  res.render("index")
 })
 
 // signUp means create account
@@ -81,9 +86,9 @@ app.post("/signUp", async (req, res) => {
 
   const userEmail = await logInModel.findOne({ email: email });
   const isMatch = bcrypt.compare(password, userEmail.password);
-  if(isMatch){
-      res.render("index");
-  }else{
+  if (isMatch) {
+    res.render("index");
+  } else {
     res.status(400).send("Invalid login");
   }
 
