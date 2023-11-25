@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const { mongoose, express, path, hbs, bcrypt } = require("./public/db/dbConnection");
 const studentmodel = require("../src/public/model/studentSchema").studentmodel;
@@ -53,7 +52,7 @@ app.post("/student", async (req, res) => {
       message: req.body.message
     })
 
-    
+
     let storeStudentListData = await newStudentListData.save()
     res.send(storeStudentListData);
   } catch (err) {
